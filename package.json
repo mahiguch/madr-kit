@@ -1,0 +1,38 @@
+{
+  "name": "madrkit",
+  "version": "0.1.0",
+  "description": "MADR Decision Command - Setup MADR projects and create architectural decision records",
+  "type": "module",
+  "main": "dist/cli/index.js",
+  "bin": {
+    "madrkit": "dist/cli/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/cli/index.ts",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage",
+    "lint": "eslint src tests --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\""
+  },
+  "keywords": [
+    "madr",
+    "adr",
+    "architecture",
+    "decisions",
+    "documentation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/handlebars": "^4.0.40",
+    "@types/inquirer": "^9.0.9",
+    "@types/node": "^24.10.1",
+    "@vitest/coverage-v8": "^4.0.14",
+    "@vitest/ui": "^4.0.14",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  }
+}

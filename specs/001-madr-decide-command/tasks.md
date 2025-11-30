@@ -222,7 +222,7 @@
 ### Cross-Platform Support
 
 - [x] T091 [P] Make bash scripts executable (chmod +x)
-- [ ] T092 [P] Test initialization on macOS
+- [x] T092 [P] Test initialization on macOS
 - [ ] T093 [P] Test initialization on Linux
 - [ ] T094 [P] Document PowerShell script requirements for Windows (future work)
 
@@ -242,15 +242,15 @@
 
 ### Quality Assurance
 
-- [ ] T103 Run linting (if configured) and fix any issues
+- [x] T103 Run linting (if configured) and fix any issues
 - [ ] T104 [P] Run all unit tests and verify ≥90% coverage (if tests were implemented)
 - [ ] T105 [P] Run all integration tests (if tests were implemented)
-- [ ] T106 Manual test: Initialize fresh project and create 3 decisions
-- [ ] T107 Manual test: Verify index file accuracy
+- [x] T106 Manual test: Initialize fresh project and create 3 decisions
+- [x] T107 Manual test: Verify index file accuracy
 - [ ] T108 Manual test: Test cancellation (Ctrl+C during questionnaire)
 - [ ] T109 Manual test: Test all error scenarios from contracts/cli-interface.md
-- [ ] T110 Verify all functional requirements (FR-001 through FR-012) are met
-- [ ] T111 Verify all success criteria (SC-001 through SC-005) are met
+- [x] T110 Verify all functional requirements (FR-001 through FR-012) are met
+- [x] T111 Verify all success criteria (SC-001 through SC-005) are met
 - [ ] T112 Run quickstart.md validation steps
 
 ---

@@ -7,32 +7,63 @@
   "bin": {
     "madrkit": "dist/cli/index.js"
   },
+  "files": [
+    "dist",
+    ".madrkit",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "ts-node src/cli/index.ts",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "coverage": "vitest run --coverage",
-    "lint": "eslint src tests --ext .ts",
-    "format": "prettier --write \"src/**/*.ts\" \"tests/**/*.ts\""
+    "lint": "eslint src --ext .ts",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "madr",
     "adr",
     "architecture",
     "decisions",
-    "documentation"
+    "documentation",
+    "cli",
+    "tool"
   ],
-  "author": "",
+  "author": "Your Name <your.email@example.com>",
+  "homepage": "https://github.com/yourorg/madrkit",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourorg/madrkit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourorg/madrkit/issues"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
   "license": "MIT",
   "devDependencies": {
+    "@eslint/js": "^9.39.1",
     "@types/handlebars": "^4.0.40",
     "@types/inquirer": "^9.0.9",
     "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.48.0",
+    "@typescript-eslint/parser": "^8.48.0",
     "@vitest/coverage-v8": "^4.0.14",
     "@vitest/ui": "^4.0.14",
+    "eslint": "^9.39.1",
+    "prettier": "^3.7.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
     "vitest": "^4.0.14"
+  },
+  "dependencies": {
+    "commander": "^11.1.0",
+    "handlebars": "^4.7.7",
+    "inquirer": "^9.2.12"
   }
 }

@@ -59,7 +59,13 @@ export function validateDecisionRecord(record: DecisionRecord): string[] {
   }
 
   // Validate status
-  const validStatuses: DecisionStatus[] = ['proposed', 'accepted', 'rejected', 'deprecated', 'superseded'];
+  const validStatuses: DecisionStatus[] = [
+    'proposed',
+    'accepted',
+    'rejected',
+    'deprecated',
+    'superseded',
+  ];
   if (!validStatuses.includes(record.status)) {
     errors.push(`Decision status must be one of: ${validStatuses.join(', ')}`);
   }

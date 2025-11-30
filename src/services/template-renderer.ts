@@ -2,7 +2,7 @@
  * Template Renderer Service - handles Handlebars template rendering
  */
 
-import Handlebars from 'handlebars';
+import Handlebars, { HelperOptions } from 'handlebars';
 import { DecisionRecord } from '../models/decision-record.js';
 
 // Register custom Handlebars helpers
@@ -22,11 +22,11 @@ Handlebars.registerHelper('isoNow', () => {
   return new Date().toISOString();
 });
 
-Handlebars.registerHelper('eq', (a: any, b: any) => {
+Handlebars.registerHelper('eq', (a: unknown, b: unknown) => {
   return a === b;
 });
 
-Handlebars.registerHelper('ifAny', (array: any[], options: any) => {
+Handlebars.registerHelper('ifAny', (array: unknown[], options: HelperOptions) => {
   if (Array.isArray(array) && array.length > 0) {
     return options.fn(this);
   }
@@ -63,7 +63,7 @@ export class TemplateRenderer {
   renderIndex(
     template: string,
     data: {
-      entries: Array<any>;
+      entries: Array<{ number: number } & Record<string, unknown>>;
       totalDecisions: number;
       lastUpdated: string;
     }
@@ -84,7 +84,7 @@ export class TemplateRenderer {
    * @param template - The template string
    * @returns The compiled template function
    */
-  compile(template: string): HandlebarsTemplateDelegate<any> {
+  compile(template: string): ReturnType<typeof Handlebars.compile> {
     return Handlebars.compile(template);
   }
 }

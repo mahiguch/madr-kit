@@ -65,7 +65,9 @@ export class DecisionCreator {
 
       return getNextNumber(numbers);
     } catch (error) {
-      throw new Error(`Failed to get next number: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to get next number: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -83,15 +85,6 @@ export class DecisionCreator {
    */
   async renderTemplate(decision: DecisionRecord, customTemplate?: string): Promise<string> {
     try {
-      // Prepare data for template
-      const templateData = {
-        ...decision,
-        number: decision.number,
-        decidersArray: decision.deciders || [],
-        alternativesArray: decision.alternatives || [],
-        relatedArray: decision.related || [],
-      };
-
       // Use custom template if provided, otherwise use default
       let template = customTemplate;
       if (!template) {
@@ -101,7 +94,9 @@ export class DecisionCreator {
 
       return this.templateRenderer.renderDecision(template, decision);
     } catch (error) {
-      throw new Error(`Failed to render template: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to render template: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -128,7 +123,9 @@ export class DecisionCreator {
         createdAt: new Date().toISOString(),
       };
     } catch (error) {
-      throw new Error(`Failed to write decision file: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to write decision file: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -164,7 +161,9 @@ export class DecisionCreator {
 
       return decisionInfo;
     } catch (error) {
-      throw new Error(`Failed to create decision: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to create decision: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 }

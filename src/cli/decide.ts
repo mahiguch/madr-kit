@@ -13,7 +13,8 @@ import { Questionnaire } from './questionnaire.js';
 const program = new Command();
 const packageJson = {
   version: '0.1.0',
-  description: 'MADR Decision Command - Setup MADR projects and create architectural decision records',
+  description:
+    'MADR Decision Command - Setup MADR projects and create architectural decision records',
 };
 
 program
@@ -22,7 +23,11 @@ program
   .version(packageJson.version)
   .option('-f, --force', 'Reinitialize even if already initialized')
   .option('-o, --output <dir>', 'Specify decisions directory', 'docs/decisions')
-  .option('-t, --template <path>', 'Use custom template file', '.madrkit/templates/decision-template.md')
+  .option(
+    '-t, --template <path>',
+    'Use custom template file',
+    '.madrkit/templates/decision-template.md'
+  )
   .option('-q, --quiet', 'Suppress non-error output')
   .option('-j, --json', 'Output results in JSON format')
   .action(async (options) => {
@@ -46,11 +51,17 @@ program
 
         if (result.success) {
           if (options.json) {
-            console.log(JSON.stringify({
-              success: true,
-              message: result.message,
-              projectState: result.projectState,
-            }, null, 2));
+            console.log(
+              JSON.stringify(
+                {
+                  success: true,
+                  message: result.message,
+                  projectState: result.projectState,
+                },
+                null,
+                2
+              )
+            );
           } else if (!options.quiet) {
             console.log(`\n${result.message}`);
             console.log('\nReady to create your first decision record.');
@@ -74,18 +85,26 @@ program
 
         const decisionRecord = await questionnaire.convertToDecisionRecord(answers);
         const creator = new DecisionCreator(options.output, options.template);
-        const createdInfo = await creator.createDecision(decisionRecord, { templatePath: options.template });
+        const createdInfo = await creator.createDecision(decisionRecord, {
+          templatePath: options.template,
+        });
 
         if (options.json) {
-          console.log(JSON.stringify({
-            success: true,
-            decisionRecord: {
-              number: createdInfo.number,
-              title: createdInfo.title,
-              filePath: createdInfo.filePath,
-              createdAt: createdInfo.createdAt,
-            },
-          }, null, 2));
+          console.log(
+            JSON.stringify(
+              {
+                success: true,
+                decisionRecord: {
+                  number: createdInfo.number,
+                  title: createdInfo.title,
+                  filePath: createdInfo.filePath,
+                  createdAt: createdInfo.createdAt,
+                },
+              },
+              null,
+              2
+            )
+          );
         } else if (!options.quiet) {
           console.log(`✓ Decision record created successfully!`);
           console.log(`  File: ${createdInfo.filePath}`);
@@ -98,10 +117,16 @@ program
     } catch (error) {
       const message = error instanceof Error ? error.message : String(error);
       if (options.json) {
-        console.error(JSON.stringify({
-          success: false,
-          error: message,
-        }, null, 2));
+        console.error(
+          JSON.stringify(
+            {
+              success: false,
+              error: message,
+            },
+            null,
+            2
+          )
+        );
       } else {
         console.error(`Error: ${message}`);
       }

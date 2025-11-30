@@ -2,10 +2,9 @@
  * Questionnaire - Interactive CLI questions for decision record creation
  */
 
-import inquirer from 'inquirer';
+import inquirer, { QuestionCollection } from 'inquirer';
 import { DecisionRecord } from '../models/decision-record.js';
 import { getQuestionnaireSchema } from '../models/questionnaire-schema.js';
-import { isValidDecisionFilename } from '../lib/number-utils.js';
 import { FileManager } from '../services/file-manager.js';
 
 export interface QuestionAnswers {
@@ -40,6 +39,7 @@ export class Questionnaire {
     }
 
     // Check for unsafe filename characters
+    // eslint-disable-next-line no-control-regex
     const unsafeChars = /[<>:"\\/|?*\x00-\x1f]/g;
     if (unsafeChars.test(title)) {
       return 'Title contains unsafe characters for filenames';
@@ -123,7 +123,7 @@ export class Questionnaire {
       const schema = getQuestionnaireSchema();
 
       // Add custom validation for related decisions
-      const questions = schema.map((question: any) => {
+      const questions: QuestionCollection = schema.map((question) => {
         if (question.name === 'title') {
           return {
             ...question,
@@ -148,7 +148,9 @@ export class Questionnaire {
       if (error instanceof Error && error.message === 'User force closed the prompt') {
         throw new Error('Decision creation cancelled by user');
       }
-      throw new Error(`Questionnaire error: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Questionnaire error: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 

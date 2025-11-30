@@ -16,12 +16,6 @@ interface IndexEntry {
   filename: string;
 }
 
-interface IndexData {
-  entries: IndexEntry[];
-  totalDecisions: number;
-  lastUpdated: string;
-}
-
 export class IndexManager {
   private fileManager: FileManager;
   private templateRenderer: TemplateRenderer;
@@ -67,7 +61,9 @@ export class IndexManager {
 
       return entries;
     } catch (error) {
-      throw new Error(`Failed to parse decision files: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to parse decision files: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -110,12 +106,6 @@ export class IndexManager {
     try {
       const sortedEntries = this.sortEntries(entries);
 
-      const indexData = {
-        entries: sortedEntries,
-        totalDecisions: entries.length,
-        lastUpdated: new Date().toISOString(),
-      };
-
       // Get template
       let template = customTemplate;
       if (!template) {
@@ -124,9 +114,15 @@ export class IndexManager {
       }
 
       // Render using TemplateRenderer
-      return this.templateRenderer.renderIndex(template, indexData);
+      return this.templateRenderer.renderIndex(template, {
+        entries: sortedEntries as unknown as Array<{ number: number } & Record<string, unknown>>,
+        totalDecisions: sortedEntries.length,
+        lastUpdated: new Date().toISOString(),
+      });
     } catch (error) {
-      throw new Error(`Failed to render index: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to render index: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -141,7 +137,9 @@ export class IndexManager {
 
       await this.fileManager.writeFile(indexPath, content);
     } catch (error) {
-      throw new Error(`Failed to write index file: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to write index file: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -153,7 +151,9 @@ export class IndexManager {
       const entries = await this.parseDecisionFiles();
       await this.writeIndexFile(entries, customTemplate);
     } catch (error) {
-      throw new Error(`Failed to update index: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to update index: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 }

@@ -111,7 +111,8 @@ export async function deleteFile(filePath: string): Promise<void> {
     await fs.unlink(filePath);
   } catch (error) {
     // File might not exist, which is fine
-    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') {
+    const err = error as Record<string, unknown>;
+    if (err.code !== 'ENOENT') {
       throw error;
     }
   }

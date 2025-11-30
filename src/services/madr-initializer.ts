@@ -3,13 +3,13 @@
  */
 
 import { execSync } from 'child_process';
-import { fileURLToPath } from 'url';
-import { dirname, join } from 'path';
+import { promises as fs } from 'fs';
 import { FileManager } from './file-manager.js';
-import { ProjectState, createDefaultProjectState, validateProjectState } from '../models/project-state.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import {
+  ProjectState,
+  createDefaultProjectState,
+  validateProjectState,
+} from '../models/project-state.js';
 
 interface InitializationResult {
   success: boolean;
@@ -61,7 +61,9 @@ export class MADRInitializer {
         stdio: 'inherit',
       });
     } catch (error) {
-      throw new Error(`Failed to install MADR package: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to install MADR package: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -82,7 +84,9 @@ export class MADRInitializer {
       const commandsDir = this.fileManager.joinPaths(templatesDir, 'commands');
       await this.fileManager.createDirectory(commandsDir);
     } catch (error) {
-      throw new Error(`Failed to create directories: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to create directories: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -104,7 +108,9 @@ export class MADRInitializer {
       const templateDir = this.fileManager.getAbsolutePath(this.templatePath);
       await this.fileManager.copyDirectory(nodeModulesPath, templateDir);
     } catch (error) {
-      throw new Error(`Failed to copy templates: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Failed to copy templates: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
@@ -148,7 +154,7 @@ export class MADRInitializer {
       projectState.decisionsPath = decisionsPath;
       projectState.templatePath = templatePath;
       projectState.initialized = true;
-      projectState.madrVersion = this.getMadrVersion();
+      projectState.madrVersion = await this.getMadrVersion();
 
       // Validate project state
       const validationErrors = validateProjectState(projectState);
@@ -162,17 +168,21 @@ export class MADRInitializer {
         message: 'MADR project initialized successfully',
       };
     } catch (error) {
-      throw new Error(`Initialization failed: ${error instanceof Error ? error.message : String(error)}`);
+      throw new Error(
+        `Initialization failed: ${error instanceof Error ? error.message : String(error)}`
+      );
     }
   }
 
   /**
    * Get installed MADR package version
    */
-  private getMadrVersion(): string {
+  private async getMadrVersion(): Promise<string> {
     try {
       const packageJsonPath = this.fileManager.getAbsolutePath('node_modules/madr/package.json');
-      const packageJson = require(packageJsonPath);
+      const content = await fs.readFile(packageJsonPath, 'utf-8');
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const packageJson = JSON.parse(content) as Record<string, any>;
       return packageJson.version || 'unknown';
     } catch {
       return 'unknown';

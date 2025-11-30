@@ -8,17 +8,19 @@
  * @returns The kebab-case formatted string
  */
 export function toKebabCase(text: string): string {
-  return text
-    .trim()
-    .toLowerCase()
-    // Replace spaces with hyphens
-    .replace(/\s+/g, '-')
-    // Remove special characters, keep only alphanumeric and hyphens
-    .replace(/[^a-z0-9-]/g, '')
-    // Remove multiple consecutive hyphens
-    .replace(/-+/g, '-')
-    // Remove leading and trailing hyphens
-    .replace(/^-+|-+$/g, '');
+  return (
+    text
+      .trim()
+      .toLowerCase()
+      // Replace spaces with hyphens
+      .replace(/\s+/g, '-')
+      // Remove special characters, keep only alphanumeric and hyphens
+      .replace(/[^a-z0-9-]/g, '')
+      // Remove multiple consecutive hyphens
+      .replace(/-+/g, '-')
+      // Remove leading and trailing hyphens
+      .replace(/^-+|-+$/g, '')
+  );
 }
 
 /**

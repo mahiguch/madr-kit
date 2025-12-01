@@ -1,6 +1,6 @@
 {
   "name": "madrkit",
-  "version": "0.2.0",
+  "version": "0.2.3",
   "description": "MADR Decision Command - Setup MADR projects and create architectural decision records",
   "type": "module",
   "main": "dist/cli/index.js",
@@ -33,13 +33,13 @@
     "tool"
   ],
   "author": "Your Name <your.email@example.com>",
-  "homepage": "https://github.com/yourorg/madrkit",
+  "homepage": "https://github.com/mahiguch/madr-kit",
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourorg/madrkit.git"
+    "url": "https://github.com/mahiguch/madr-kit.git"
   },
   "bugs": {
-    "url": "https://github.com/yourorg/madrkit/issues"
+    "url": "https://github.com/mahiguch/madr-kit/issues"
   },
   "engines": {
     "node": ">=18.0.0",

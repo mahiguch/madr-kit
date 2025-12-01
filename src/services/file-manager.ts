@@ -13,6 +13,7 @@ import {
   copyFile,
 } from '../lib/file-utils.js';
 import * as path from 'path';
+import * as fs from 'fs';
 
 export class FileManager {
   /**
@@ -73,13 +74,43 @@ export class FileManager {
   }
 
   /**
+   * Find the project root by searching for .git or package.json
+   * @param startDir - Directory to start searching from (default: process.cwd())
+   * @returns Project root path or current working directory as fallback
+   */
+  findProjectRoot(startDir: string = process.cwd()): string {
+    let currentDir = startDir;
+    const root = path.parse(currentDir).root;
+
+    while (currentDir !== root) {
+      // Check for .git directory
+      if (fs.existsSync(path.join(currentDir, '.git'))) {
+        return currentDir;
+      }
+
+      // Check for package.json
+      if (fs.existsSync(path.join(currentDir, 'package.json'))) {
+        return currentDir;
+      }
+
+      // Move to parent directory
+      currentDir = path.dirname(currentDir);
+    }
+
+    // Fallback to current working directory
+    return process.cwd();
+  }
+
+  /**
    * Get the absolute path for a relative path
    */
   getAbsolutePath(relativePath: string): string {
     if (path.isAbsolute(relativePath)) {
       return relativePath;
     }
-    return path.resolve(process.cwd(), relativePath);
+    // Use project root instead of process.cwd()
+    const projectRoot = this.findProjectRoot();
+    return path.resolve(projectRoot, relativePath);
   }
 
   /**

@@ -163,7 +163,7 @@ touch .madrkit/scripts/bash/create-decision.sh
 touch .madrkit/scripts/bash/update-index.sh
 
 # Templates
-touch .madrkit/templates/decision-template.md
+touch .madrkit/templates/adr-template.md
 touch .madrkit/templates/index-template.md
 touch .madrkit/templates/commands/decide.md
 ```
@@ -319,7 +319,7 @@ Create markdown templates:
 **Example: Decision Template**
 
 ```markdown
-<!-- .madrkit/templates/decision-template.md -->
+<!-- .madrkit/templates/adr-template.md -->
 ---
 status: {{status}}
 date: {{date}}

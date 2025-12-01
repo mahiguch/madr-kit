@@ -13,7 +13,7 @@ import { AppError, UserCancelledError } from '../models/app-error.js';
 
 const program = new Command();
 const packageJson = {
-  version: '0.2.4',
+  version: '0.3.1',
   description:
     'MADR Decision Command - Setup MADR projects and create architectural decision records',
 };
@@ -27,7 +27,7 @@ program
   .option(
     '-t, --template <path>',
     'Use custom template file',
-    '.madrkit/templates/decision-template.md'
+    '.madrkit/templates/adr-template.md'
   )
   .option('-q, --quiet', 'Suppress non-error output')
   .option('-j, --json', 'Output results in JSON format')

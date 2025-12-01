@@ -24,7 +24,7 @@ This document defines the command-line interface contract for the `/madrkit.deci
 | `--help` | `-h` | boolean | false | Display help information |
 | `--version` | `-v` | boolean | false | Display version information |
 | `--force` | `-f` | boolean | false | Reinitialize even if already initialized |
-| `--template <path>` | `-t` | string | `.madrkit/templates/decision-template.md` | Use custom template file |
+| `--template <path>` | `-t` | string | `.madrkit/templates/adr-template.md` | Use custom template file |
 | `--output <dir>` | `-o` | string | `docs/decisions` | Specify decisions directory |
 | `--quiet` | `-q` | boolean | false | Suppress non-error output |
 | `--json` | `-j` | boolean | false | Output results in JSON format |

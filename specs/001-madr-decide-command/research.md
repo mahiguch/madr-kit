@@ -132,7 +132,7 @@ tests/
 - Follows spec-kit pattern of template management
 
 **Implementation**:
-1. Copy MADR templates to `.madrkit/templates/decision-template.md` during init
+1. Copy MADR templates to `.madrkit/templates/adr-template.md` during init
 2. Check for existing custom templates before overwriting
 3. Support template versioning in frontmatter metadata
 4. Allow users to customize templates without reinstallation

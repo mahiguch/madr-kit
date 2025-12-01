@@ -118,7 +118,7 @@ Standard template structure defining the format and sections of each decision re
 - `version`: Semantic version string (MAJOR.MINOR.PATCH)
 - `sections`: At minimum must include Context, Decision, Consequences
 
-**Storage**: File at `.madrkit/templates/decision-template.md`
+**Storage**: File at `.madrkit/templates/adr-template.md`
 
 ---
 
@@ -142,7 +142,7 @@ Represents the current state of an MADR project in the codebase.
 **Detection Logic**:
 - Project is `initialized` if `decisionsPath` directory exists with template files
 - `highestNumber` is determined by scanning decision files and extracting max number
-- `customTemplate` is `true` if `.madrkit/templates/decision-template.md` differs from vendored version
+- `customTemplate` is `true` if `.madrkit/templates/adr-template.md` differs from vendored version
 
 ---
 

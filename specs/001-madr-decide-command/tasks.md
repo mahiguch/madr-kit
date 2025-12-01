@@ -50,7 +50,7 @@
 - [x] T014 [P] Create Questionnaire Schema model in src/models/questionnaire-schema.ts
 - [x] T015 Implement FileManager service in src/services/file-manager.ts (depends on T011)
 - [x] T016 [P] Implement TemplateRenderer service in src/services/template-renderer.ts (Handlebars integration)
-- [x] T017 Create MADR decision template in .madrkit/templates/decision-template.md (Handlebars format)
+- [x] T017 Create MADR decision template in .madrkit/templates/adr-template.md (Handlebars format)
 - [x] T018 [P] Create MADR index template in .madrkit/templates/index-template.md
 - [x] T019 [P] Create command metadata file in .madrkit/templates/commands/decide.md
 

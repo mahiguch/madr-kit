@@ -40,7 +40,7 @@ export class DecisionCreator {
 
   constructor(
     decisionsDir: string = 'docs/decisions',
-    templatePath: string = '.madrkit/templates/decision-template.md'
+    templatePath: string = '.madrkit/templates/adr-template.md'
   ) {
     this.fileManager = new FileManager();
     this.templateRenderer = new TemplateRenderer();

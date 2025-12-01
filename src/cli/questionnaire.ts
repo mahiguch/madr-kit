@@ -6,7 +6,7 @@ import inquirer, { QuestionCollection } from 'inquirer';
 import { DecisionRecord } from '../models/decision-record.js';
 import { getQuestionnaireSchema } from '../models/questionnaire-schema.js';
 import { FileManager } from '../services/file-manager.js';
-import { InvalidTitleError, UserCancelledError } from '../models/app-error.js';
+import { UserCancelledError } from '../models/app-error.js';
 
 export interface QuestionAnswers {
   title: string;
@@ -130,13 +130,6 @@ export class Questionnaire {
             ...question,
             validate: (value: string) => {
               const result = this.validateTitle(value);
-              if (result !== true) {
-                // Check if it's an unsafe character error
-                if (typeof result === 'string' && result.includes('unsafe')) {
-                  // Store the title for later use in error
-                  return result;
-                }
-              }
               return result;
             },
           };
@@ -152,12 +145,6 @@ export class Questionnaire {
 
       // Prompt user
       const answers = await inquirer.prompt(questions);
-
-      // Validate title against AppError rules
-      const titleValidation = this.validateTitle(answers.title);
-      if (titleValidation !== true) {
-        throw new InvalidTitleError(answers.title);
-      }
 
       return answers as QuestionAnswers;
     } catch (error) {

@@ -212,12 +212,12 @@
 
 ### Edge Case Handling
 
-- [ ] T085 Handle already initialized project (skip init, proceed to decision creation per FR-011)
-- [ ] T086 [P] Handle existing docs/decisions directory with content
-- [ ] T087 [P] Handle MADR npm package installation failure (network, permissions)
-- [ ] T088 [P] Handle invalid characters in decision title (sanitize before filename)
-- [ ] T089 [P] Handle decision number gaps (deleted files)
-- [ ] T090 [P] Handle decision number overflow (>999 decisions)
+- [x] T085 Handle already initialized project (skip init, proceed to decision creation per FR-011)
+- [x] T086 [P] Handle existing docs/decisions directory with content
+- [x] T087 [P] Handle MADR npm package installation failure (network, permissions)
+- [x] T088 [P] Handle invalid characters in decision title (sanitize before filename)
+- [x] T089 [P] Handle decision number gaps (deleted files)
+- [x] T090 [P] Handle decision number overflow (>999 decisions)
 
 ### Cross-Platform Support
 

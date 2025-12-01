@@ -12,7 +12,7 @@ import { Questionnaire } from './questionnaire.js';
 
 const program = new Command();
 const packageJson = {
-  version: '0.1.0',
+  version: '0.2.4',
   description:
     'MADR Decision Command - Setup MADR projects and create architectural decision records',
 };

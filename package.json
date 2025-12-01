@@ -1,6 +1,6 @@
 {
   "name": "madrkit",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "MADR Decision Command - Setup MADR projects and create architectural decision records",
   "type": "module",
   "main": "dist/cli/index.js",

@@ -229,9 +229,9 @@
 ### Documentation & Examples
 
 - [x] T095 [P] Create README.md with usage examples
-- [ ] T096 [P] Add inline code documentation (JSDoc comments)
-- [ ] T097 [P] Create test fixtures in tests/fixtures/sample-projects/
-- [ ] T098 [P] Create test fixtures in tests/fixtures/mock-templates/
+- [x] T096 [P] Add inline code documentation (JSDoc comments)
+- [x] T097 [P] Create test fixtures in tests/fixtures/sample-projects/
+- [x] T098 [P] Create test fixtures in tests/fixtures/mock-templates/
 
 ### Build & Deployment
 

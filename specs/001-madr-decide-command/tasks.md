@@ -202,13 +202,13 @@
 
 ### Error Handling & Exit Codes
 
-- [ ] T078 [P] Implement error E001 (npm not found) with exit code 1
-- [ ] T079 [P] Implement error E002 (permission denied) with exit code 2
-- [ ] T080 [P] Implement error E003 (MADR installation failed) with exit code 3
-- [ ] T081 [P] Implement error E004 (invalid decision title) with exit code 4
-- [ ] T082 [P] Implement error E005 (template file not found) with exit code 5
-- [ ] T083 [P] Implement error E006 (user cancelled) with exit code 130
-- [ ] T084 [P] Implement error E007 (decision limit reached) with exit code 7
+- [x] T078 [P] Implement error E001 (npm not found) with exit code 1
+- [x] T079 [P] Implement error E002 (permission denied) with exit code 2
+- [x] T080 [P] Implement error E003 (MADR installation failed) with exit code 3
+- [x] T081 [P] Implement error E004 (invalid decision title) with exit code 4
+- [x] T082 [P] Implement error E005 (template file not found) with exit code 5
+- [x] T083 [P] Implement error E006 (user cancelled) with exit code 130
+- [x] T084 [P] Implement error E007 (decision limit reached) with exit code 7
 
 ### Edge Case Handling
 

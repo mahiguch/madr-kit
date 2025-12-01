@@ -6,6 +6,7 @@ import inquirer, { QuestionCollection } from 'inquirer';
 import { DecisionRecord } from '../models/decision-record.js';
 import { getQuestionnaireSchema } from '../models/questionnaire-schema.js';
 import { FileManager } from '../services/file-manager.js';
+import { InvalidTitleError, UserCancelledError } from '../models/app-error.js';
 
 export interface QuestionAnswers {
   title: string;
@@ -127,7 +128,17 @@ export class Questionnaire {
         if (question.name === 'title') {
           return {
             ...question,
-            validate: this.validateTitle.bind(this),
+            validate: (value: string) => {
+              const result = this.validateTitle(value);
+              if (result !== true) {
+                // Check if it's an unsafe character error
+                if (typeof result === 'string' && result.includes('unsafe')) {
+                  // Store the title for later use in error
+                  return result;
+                }
+              }
+              return result;
+            },
           };
         }
         if (question.name === 'related') {
@@ -142,15 +153,19 @@ export class Questionnaire {
       // Prompt user
       const answers = await inquirer.prompt(questions);
 
+      // Validate title against AppError rules
+      const titleValidation = this.validateTitle(answers.title);
+      if (titleValidation !== true) {
+        throw new InvalidTitleError(answers.title);
+      }
+
       return answers as QuestionAnswers;
     } catch (error) {
       // Handle Ctrl+C cancellation
       if (error instanceof Error && error.message === 'User force closed the prompt') {
-        throw new Error('Decision creation cancelled by user');
+        throw new UserCancelledError();
       }
-      throw new Error(
-        `Questionnaire error: ${error instanceof Error ? error.message : String(error)}`
-      );
+      throw error;
     }
   }
 

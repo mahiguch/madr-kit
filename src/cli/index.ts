@@ -9,6 +9,7 @@ import { Command } from 'commander';
 import { MADRInitializer } from '../services/madr-initializer.js';
 import { DecisionCreator } from '../services/decision-creator.js';
 import { Questionnaire } from './questionnaire.js';
+import { AppError, UserCancelledError } from '../models/app-error.js';
 
 const program = new Command();
 const packageJson = {
@@ -115,22 +116,54 @@ program
         process.exit(0);
       }
     } catch (error) {
-      const message = error instanceof Error ? error.message : String(error);
+      let exitCode = 1;
+      let message = '';
+      let details = '';
+      let suggestion = '';
+
+      if (error instanceof UserCancelledError) {
+        // User cancelled - special handling
+        message = error.message;
+        details = error.details || '';
+        exitCode = error.exitCode;
+      } else if (error instanceof AppError) {
+        // Structured application error
+        message = error.message;
+        details = error.details || '';
+        suggestion = error.suggestion || '';
+        exitCode = error.exitCode;
+      } else if (error instanceof Error) {
+        message = error.message;
+      } else {
+        message = String(error);
+      }
+
       if (options.json) {
         console.error(
           JSON.stringify(
             {
               success: false,
-              error: message,
+              error: {
+                message,
+                ...(details && { details }),
+                ...(suggestion && { suggestion }),
+              },
             },
             null,
             2
           )
         );
       } else {
+        // Format error to stderr
         console.error(`Error: ${message}`);
+        if (details) {
+          console.error(details);
+        }
+        if (suggestion) {
+          console.error(`\n${suggestion}`);
+        }
       }
-      process.exit(1);
+      process.exit(exitCode);
     }
   });
 

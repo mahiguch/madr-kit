@@ -6,8 +6,18 @@ import { FileManager } from './file-manager.js';
 import { TemplateRenderer } from './template-renderer.js';
 import { IndexManager } from './index-manager.js';
 import { DecisionRecord } from '../models/decision-record.js';
-import { extractNumberFromFilename, getNextNumber, padNumber } from '../lib/number-utils.js';
+import {
+  extractNumberFromFilename,
+  getNextNumber,
+  padNumber,
+} from '../lib/number-utils.js';
 import { titleToFilename } from '../lib/string-utils.js';
+import {
+  AppError,
+  DecisionOverflowError,
+  PermissionDeniedError,
+  TemplateNotFoundError,
+} from '../models/app-error.js';
 
 interface CreateDecisionOptions {
   templatePath?: string;
@@ -63,8 +73,18 @@ export class DecisionCreator {
         return 1;
       }
 
-      return getNextNumber(numbers);
+      const nextNumber = getNextNumber(numbers);
+
+      // Check for overflow (-1 means overflow)
+      if (nextNumber === -1) {
+        throw new DecisionOverflowError();
+      }
+
+      return nextNumber;
     } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      }
       throw new Error(
         `Failed to get next number: ${error instanceof Error ? error.message : String(error)}`
       );
@@ -89,11 +109,18 @@ export class DecisionCreator {
       let template = customTemplate;
       if (!template) {
         const templatePath = this.fileManager.getAbsolutePath(this.templatePath);
+        const fileExists = await this.fileManager.fileExists(templatePath);
+        if (!fileExists) {
+          throw new TemplateNotFoundError(templatePath);
+        }
         template = await this.fileManager.readFileContent(templatePath);
       }
 
       return this.templateRenderer.renderDecision(template, decision);
     } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      }
       throw new Error(
         `Failed to render template: ${error instanceof Error ? error.message : String(error)}`
       );
@@ -123,6 +150,16 @@ export class DecisionCreator {
         createdAt: new Date().toISOString(),
       };
     } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      }
+      // Check for permission denied errors
+      if (
+        error instanceof Error &&
+        (error.message.includes('EACCES') || error.message.includes('permission'))
+      ) {
+        throw new PermissionDeniedError(this.decisionsDir);
+      }
       throw new Error(
         `Failed to write decision file: ${error instanceof Error ? error.message : String(error)}`
       );

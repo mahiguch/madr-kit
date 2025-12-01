@@ -10,6 +10,12 @@ import {
   createDefaultProjectState,
   validateProjectState,
 } from '../models/project-state.js';
+import {
+  AppError,
+  InstallationFailedError,
+  NpmNotFoundError,
+  PermissionDeniedError,
+} from '../models/app-error.js';
 
 interface InitializationResult {
   success: boolean;
@@ -55,14 +61,28 @@ export class MADRInitializer {
    */
   async installPackage(): Promise<void> {
     try {
+      // Check if npm is available
+      execSync('npm --version', { stdio: 'ignore' });
+    } catch {
+      throw new NpmNotFoundError();
+    }
+
+    try {
       // Use npm install with --save-dev for development dependency
       execSync('npm install madr --save-dev', {
         cwd: process.cwd(),
         stdio: 'inherit',
       });
     } catch (error) {
-      throw new Error(
-        `Failed to install MADR package: ${error instanceof Error ? error.message : String(error)}`
+      // Check for specific error messages
+      if (
+        error instanceof Error &&
+        (error.message.includes('EACCES') || error.message.includes('permission'))
+      ) {
+        throw new PermissionDeniedError('node_modules');
+      }
+      throw new InstallationFailedError(
+        error instanceof Error ? error.message : undefined
       );
     }
   }
@@ -84,6 +104,13 @@ export class MADRInitializer {
       const commandsDir = this.fileManager.joinPaths(templatesDir, 'commands');
       await this.fileManager.createDirectory(commandsDir);
     } catch (error) {
+      // Check for permission denied errors
+      if (
+        error instanceof Error &&
+        (error.message.includes('EACCES') || error.message.includes('permission'))
+      ) {
+        throw new PermissionDeniedError(this.decisionsPath);
+      }
       throw new Error(
         `Failed to create directories: ${error instanceof Error ? error.message : String(error)}`
       );
@@ -168,6 +195,9 @@ export class MADRInitializer {
         message: 'MADR project initialized successfully',
       };
     } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      }
       throw new Error(
         `Initialization failed: ${error instanceof Error ? error.message : String(error)}`
       );

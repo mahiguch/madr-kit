@@ -37,7 +37,7 @@ export function isValidDecisionFilename(filename: string): boolean {
  * Calculate the next decision number based on a list of existing filenames
  * Scans for all files matching pattern NNN-*.md and returns max + 1
  * @param existingNumbers - Array of existing decision numbers
- * @returns The next decision number (1-999)
+ * @returns The next decision number (1-999), or -1 if overflow
  */
 export function getNextNumber(existingNumbers: number[]): number {
   if (existingNumbers.length === 0) {
@@ -46,9 +46,9 @@ export function getNextNumber(existingNumbers: number[]): number {
 
   const maxNumber = Math.max(...existingNumbers);
 
-  // Check for overflow
+  // Check for overflow - return -1 to indicate error
   if (maxNumber >= 999) {
-    throw new Error('Maximum decisions reached (999 limit)');
+    return -1;
   }
 
   return maxNumber + 1;
